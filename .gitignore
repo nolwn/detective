@@ -2,5 +2,4 @@
 .DS_Store
 
 # Folders
-dist/*
-node_modules/*
+.vscode
