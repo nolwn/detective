@@ -1,11 +1,13 @@
 import User from "./User.ts";
 import Scene from "./Scene.ts";
+import Player from "./Player.ts";
 import { hall } from "./data/data.ts";
 import parseCommand from "./parseCommand.ts";
 
 async function main() {
 	const user = new User();
 	const scene = new Scene(hall);
+	const player = new Player();
 	const question = "";
 	let running = true;
 	let statement = "";
@@ -28,7 +30,11 @@ async function main() {
 				break;
 
 			case "take":
-				await scene.take(target);
+				await pickUpItem(scene, player, target);
+				break;
+
+			case "inventory":
+				await player.inventory();
 				break;
 
 			default:
@@ -47,6 +53,14 @@ function quit(user: User): boolean {
 	}
 
 	return true;
+}
+
+async function pickUpItem(scene: Scene, player: Player, target: string) {
+	const item = await scene.take(target);
+
+	if (item !== null) {
+		player.drop(item);
+	}
 }
 
 main();
