@@ -1,26 +1,34 @@
-import Console from "./console.ts";
+import User from "./User.ts";
+import Scene from "./Scene.ts";
+import { hall } from "./data/data.ts";
 import parseCommand from "./parseCommand.ts";
 
 async function main() {
-	const c = new Console();
-	const question = "Are you a butthole?";
+	const user = new User();
+	const scene = new Scene(hall);
+	const question = "";
 	let running = true;
 	let statement = "";
 
 	while (running) {
 		const prompts = `${statement}${question}`;
-		const answer = await c.ask(prompts);
+		const answer = await user.ask(prompts);
 
-		const { action } = parseCommand(answer);
+		const { action, target } = parseCommand(answer);
 
 		statement = "";
 
 		switch (action) {
 			case "quit":
-				running = quit(c);
+				running = quit(user);
+				break;
+
+			case "look":
+				await scene.look();
 				break;
 
 			case "take":
+				await scene.take(target);
 				break;
 
 			default:
@@ -31,8 +39,8 @@ async function main() {
 	}
 }
 
-function quit(c: Console): boolean {
-	const confirmQuit = c.ask("Are you sure you want to quit?");
+function quit(user: User): boolean {
+	const confirmQuit = user.ask("Are you sure you want to quit?\n");
 
 	if (confirmQuit[0] === "y") {
 		return false;
