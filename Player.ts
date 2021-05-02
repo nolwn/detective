@@ -1,33 +1,22 @@
 import { Item } from "./data/data.ts";
+import Container from "./Container.ts";
 import User from "./User.ts";
 
-export default class Player {
-	#items: Item[];
+export default class Player extends Container {
 	#user: User;
 
 	constructor(items?: Item[]) {
-		this.#items = items || [];
+		super(items || []);
 		this.#user = new User();
 	}
 
 	drop(item: Item) {
-		this.#items.push(item);
+		this.items.push(item);
 	}
 
-	async inventory() {
-		const vowels = ["a", "e", "i", "o", "u"];
-		const description = this.#items
-			.map(({ name }, i) => {
-				let anItem = `${vowels.includes(name[0]) ? "an" : "a"} ${name}`;
+	look(): void {
+		const description = super.description(this.items);
 
-				if (i + 1 === this.#items.length) {
-					anItem = `and ${anItem}`;
-				}
-
-				return anItem;
-			})
-			.join(", ");
-
-		await this.#user.tell(`You have ${description}.`);
+		this.#user.tell(`You have ${description}`);
 	}
 }

@@ -34,7 +34,7 @@ async function main() {
 				break;
 
 			case "inventory":
-				await player.inventory();
+				await player.look();
 				break;
 
 			default:
