@@ -30,7 +30,7 @@ async function main() {
 				break;
 
 			case "take":
-				await pickUpItem(scene, player, target);
+				await pickUpItem(user, scene, player, target);
 				break;
 
 			case "inventory":
@@ -38,8 +38,7 @@ async function main() {
 				break;
 
 			default:
-				statement = "I didn't understand that.\n";
-
+				statement = "\nI didn't understand that.\n";
 				break;
 		}
 	}
@@ -55,7 +54,17 @@ function quit(user: User): boolean {
 	return true;
 }
 
-async function pickUpItem(scene: Scene, player: Player, target: string) {
+async function pickUpItem(
+	user: User,
+	scene: Scene,
+	player: Player,
+	target?: string
+) {
+	if (!target) {
+		await user.tell("What do you want me to take?");
+		return;
+	}
+
 	const item = await scene.take(target);
 
 	if (item !== null) {

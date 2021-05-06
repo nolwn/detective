@@ -10,7 +10,7 @@ export default class Scene extends Container {
 		this.#user = new User();
 	}
 
-	async look() {
+	async look(): Promise<void> {
 		const description = super.description(this.items);
 
 		await this.#user.tell(`There is ${description}`);

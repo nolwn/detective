@@ -14,9 +14,9 @@ export default class Player extends Container {
 		this.items.push(item);
 	}
 
-	look(): void {
+	async look(): Promise<void> {
 		const description = super.description(this.items);
 
-		this.#user.tell(`You have ${description}`);
+		await this.#user.tell(`You have ${description}`);
 	}
 }
