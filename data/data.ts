@@ -5,5 +5,6 @@ export interface Item {
 }
 
 export interface GameData {
+	description: string;
 	items: Item[];
 }

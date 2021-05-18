@@ -1,23 +1,24 @@
 import { GameData, Item } from "./data/data.ts";
-import User from "./User.ts";
 import Container from "./Container.ts";
 
 export default class Scene extends Container {
-	#user: User;
+	#roomDescription: string;
 
 	constructor(gameData: GameData) {
 		super(gameData.items);
-		this.#user = new User();
+
+		this.#roomDescription = gameData.description;
 	}
 
 	look(): string {
-		const description = super.description(this.items);
+		const itemsDescription = super.description(this.items);
+		let description = this.#roomDescription;
 
-		if (description) {
-			return `There is ${description}`;
-		} else {
-			return "There is nothing around...";
+		if (itemsDescription) {
+			description += `\n\nThere is ${itemsDescription}`;
 		}
+
+		return description;
 	}
 
 	get(target: string): Item | null {

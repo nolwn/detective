@@ -15,7 +15,8 @@ export default class Container {
 			.map(({ name }, i) => {
 				let anItem = `${vowels.includes(name[0]) ? "an" : "a"} ${name}`;
 
-				if (i + 1 === items.length) {
+				// if we have more than one item, and this is the last item...
+				if (i > 1 && i + 1 === items.length) {
 					anItem = `and ${anItem}`;
 				}
 
