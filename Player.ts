@@ -10,13 +10,17 @@ export default class Player extends Container {
 		this.#user = new User();
 	}
 
-	drop(item: Item) {
+	put(item: Item) {
 		this.items.push(item);
 	}
 
-	async look(): Promise<void> {
+	look(): string {
 		const description = super.description(this.items);
 
-		await this.#user.tell(`You have ${description}`);
+		if (description) {
+			return `You have ${description}`;
+		} else {
+			return "You have nothing.";
+		}
 	}
 }

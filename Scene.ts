@@ -10,20 +10,22 @@ export default class Scene extends Container {
 		this.#user = new User();
 	}
 
-	async look(): Promise<void> {
+	look(): string {
 		const description = super.description(this.items);
 
-		await this.#user.tell(`There is ${description}`);
+		if (description) {
+			return `There is ${description}`;
+		} else {
+			return "There is nothing around...";
+		}
 	}
 
-	async take(target: string): Promise<Item | null> {
+	get(target: string): Item | null {
 		const idx = this.items.findIndex(({ name }) => name === target);
 
 		if (idx >= 0) {
 			const item = this.items[idx];
 			this.items.splice(idx, 1);
-
-			await this.#user.tell("Taken.");
 
 			return item;
 		}

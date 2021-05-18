@@ -7,7 +7,9 @@ export default class Container {
 		this.items = items;
 	}
 
-	description(items: Item[]): string {
+	description(items: Item[]): string | null {
+		if (items.length === 0) return null;
+
 		const vowels = ["a", "e", "i", "o", "u"];
 		const description = items
 			.map(({ name }, i) => {
