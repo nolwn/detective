@@ -1,8 +1,8 @@
 import Scene from "../Scene.ts";
 import Player from "../Player.ts";
 
-export function look(_player: Player, scene: Scene): string {
-	return scene.look();
+export function look(player: Player, scene: Scene): string {
+	return scene.look(player.activeEffects, scene.activeEffects);
 }
 
 export function pickUpItem(

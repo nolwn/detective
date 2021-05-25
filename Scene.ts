@@ -1,32 +1,46 @@
-import { GameData, Item } from "./data/data.ts";
-import Container from "./Container.ts";
+import { GameData, Item, SceneProperties } from "./types.ts";
+import Vessel from "./Vessel.ts";
 
-export default class Scene extends Container {
-	#roomDescription: string;
+export default class Scene extends Vessel<SceneProperties> {
+	#isViewed: boolean;
 
-	constructor(gameData: GameData) {
-		super(gameData.items);
-
-		this.#roomDescription = gameData.description;
+	constructor(gameData: GameData<SceneProperties>) {
+		// TODO: [] is a placeholder for scene effects.
+		super(gameData.properties, gameData.conditions);
+		this.#isViewed = false;
 	}
 
-	look(): string {
-		const itemsDescription = super.description(this.items);
-		let description = this.#roomDescription;
+	look(activePlayerEffects: string[], activeSceneEffects: string[]): string {
+		const properties = this.applyEffects(
+			activePlayerEffects,
+			activeSceneEffects
+		);
+		const itemsDescription = super.description(properties.items || []);
+		const { description, shortDescription } = properties;
 
-		if (itemsDescription) {
-			description += `\n\nThere is ${itemsDescription}`;
+		let fullDescription = description || "Nothing to see here...";
+
+		if (this.#isViewed && shortDescription) {
+			fullDescription = shortDescription;
+		} else if (description) {
+			this.#isViewed = true;
+			fullDescription = description;
 		}
 
-		return description;
+		if (itemsDescription) {
+			fullDescription += `\n\nThere is ${itemsDescription}`;
+		}
+
+		return fullDescription;
 	}
 
 	get(target: string): Item | null {
-		const idx = this.items.findIndex(({ name }) => name === target);
+		const { items = [] } = this._properties;
+		const idx = items.findIndex(({ name }) => name === target);
 
 		if (idx >= 0) {
-			const item = this.items[idx];
-			this.items.splice(idx, 1);
+			const item = items[idx];
+			items.splice(idx, 1);
 
 			return item;
 		}

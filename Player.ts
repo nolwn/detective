@@ -1,26 +1,31 @@
-import { Item } from "./data/data.ts";
-import Container from "./Container.ts";
-import User from "./User.ts";
+import { Effect, Item, VesselProperties } from "./types.ts";
+import Vessel from "./Vessel.ts";
 
-export default class Player extends Container {
-	#user: User;
+export default class Player extends Vessel<VesselProperties> {
+	#effects: Effect<VesselProperties>[];
 
-	constructor(items?: Item[]) {
-		super(items || []);
-		this.#user = new User();
+	constructor(items: Item[] = [], effects: Effect<VesselProperties>[] = []) {
+		super({ items }, { effects: [] });
+
+		this.#effects = effects;
 	}
 
-	put(item: Item) {
-		this.items.push(item);
+	get effects() {
+		return this.#effects;
 	}
 
 	look(): string {
-		const description = super.description(this.items);
+		const description = super.description(this._properties.items || []);
 
 		if (description) {
 			return `You have ${description}`;
 		} else {
 			return "You have nothing.";
 		}
+	}
+
+	put(item: Item) {
+		if (!this._properties.items) this._properties.items = [];
+		this._properties.items.push(item);
 	}
 }

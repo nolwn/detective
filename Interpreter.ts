@@ -1,5 +1,5 @@
-import Player from "./Player.ts";
-import Scene from "./Scene.ts";
+import type Player from "./Player.ts";
+import type Scene from "./Scene.ts";
 import { terms } from "./terms/terms.ts";
 import type {
 	Action,

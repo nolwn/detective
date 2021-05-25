@@ -2,7 +2,7 @@ import Interpreter from "./Interpreter.ts";
 import Player from "./Player.ts";
 import Scene from "./Scene.ts";
 import User from "./User.ts";
-import { hall } from "./data/data.ts";
+import { hall } from "./types.ts";
 
 async function main() {
 	const user = new User(); // for communication with the user

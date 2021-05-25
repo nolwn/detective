@@ -21,8 +21,8 @@ const look: Action = {
 
 const take: Action = {
 	action: actions.pickUpItem,
-	category: "action",
 	canPrecedeVariable: true,
+	category: "action",
 	constant: "take",
 	precedesCategories: [],
 	precedesConstants: [],
