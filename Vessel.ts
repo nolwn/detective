@@ -19,24 +19,8 @@ export default class Vessel<T extends VesselProperties> {
 		return this._activeEffects;
 	}
 
-	description(items: Item[]): string | null {
-		if (items.length === 0) return null;
-
-		const vowels = ["a", "e", "i", "o", "u"];
-		const description = items
-			.map(({ name }, i) => {
-				let anItem = `${vowels.includes(name[0]) ? "an" : "a"} ${name}`;
-
-				// if we have more than one item, and this is the last item...
-				if (i > 1 && i + 1 === items.length) {
-					anItem = `and ${anItem}`;
-				}
-
-				return anItem;
-			})
-			.join(", ");
-
-		return description;
+	addEffect(effect: string): void {
+		this.activeEffects.push(effect);
 	}
 
 	// Player effects should be applied first, then scene effects should be applied.
@@ -61,5 +45,37 @@ export default class Vessel<T extends VesselProperties> {
 		}
 
 		return appliedProperties;
+	}
+
+	description(items: Item[]): string | null {
+		if (items.length === 0) return null;
+
+		const vowels = ["a", "e", "i", "o", "u"];
+		const description = items
+			.map(({ name }, i) => {
+				let anItem = `${vowels.includes(name[0]) ? "an" : "a"} ${name}`;
+
+				// if we have more than one item, and this is the last item...
+				if (i > 1 && i + 1 === items.length) {
+					anItem = `and ${anItem}`;
+				}
+
+				return anItem;
+			})
+			.join(", ");
+
+		return description;
+	}
+
+	hasActiveEffect(effect: string): boolean {
+		return this._activeEffects.includes(effect);
+	}
+
+	removeEffect(effect: string): void {
+		const idx = this._activeEffects.findIndex((e) => e === effect);
+
+		if (idx >= 0) {
+			this._activeEffects.splice(idx, 1);
+		}
 	}
 }

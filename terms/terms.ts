@@ -1,7 +1,7 @@
 import * as actions from "./actions.ts";
-import { Action } from "./Term.ts";
+import { ActionTerm } from "./Term.ts";
 
-const inventory: Action = {
+const inventory: ActionTerm = {
 	action: actions.checkInventory,
 	canPrecedeVariable: false,
 	category: "action",
@@ -10,7 +10,7 @@ const inventory: Action = {
 	precedesConstants: [],
 };
 
-const look: Action = {
+const look: ActionTerm = {
 	action: actions.look,
 	canPrecedeVariable: false,
 	category: "action",
@@ -19,7 +19,7 @@ const look: Action = {
 	precedesConstants: [],
 };
 
-const take: Action = {
+const take: ActionTerm = {
 	action: actions.pickUpItem,
 	canPrecedeVariable: true,
 	category: "action",
@@ -28,8 +28,18 @@ const take: Action = {
 	precedesConstants: [],
 };
 
+const use: ActionTerm = {
+	action: actions.use,
+	canPrecedeVariable: true,
+	category: "action",
+	constant: "use",
+	precedesCategories: [],
+	precedesConstants: [],
+};
+
 export const terms = {
 	[inventory.constant]: inventory,
 	[look.constant]: look,
 	[take.constant]: take,
+	[use.constant]: use,
 };

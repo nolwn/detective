@@ -2,7 +2,7 @@ import type Player from "./Player.ts";
 import type Scene from "./Scene.ts";
 import { terms } from "./terms/terms.ts";
 import type {
-	Action,
+	ActionTerm,
 	ActionFn,
 	Category,
 	Constant,
@@ -87,7 +87,7 @@ export default class Interpreter {
 		}
 	}
 
-	private processTerm(term: Action | Term): void {
+	private processTerm(term: ActionTerm | Term): void {
 		if ("action" in term) {
 			this.addAction(term);
 		}
@@ -105,7 +105,7 @@ export default class Interpreter {
 		}
 	}
 
-	private addAction(term: Action) {
+	private addAction(term: ActionTerm) {
 		// make sure we expected an action and process it if it was
 		if (this.expectedCategories.includes("action")) {
 			this.action = term.action;

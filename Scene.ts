@@ -2,12 +2,9 @@ import { GameData, Item, SceneProperties } from "./types.ts";
 import Vessel from "./Vessel.ts";
 
 export default class Scene extends Vessel<SceneProperties> {
-	#isViewed: boolean;
-
 	constructor(gameData: GameData<SceneProperties>) {
 		// TODO: [] is a placeholder for scene effects.
 		super(gameData.properties, gameData.conditions);
-		this.#isViewed = false;
 	}
 
 	look(activePlayerEffects: string[], activeSceneEffects: string[]): string {
@@ -16,14 +13,11 @@ export default class Scene extends Vessel<SceneProperties> {
 			activeSceneEffects
 		);
 		const itemsDescription = super.description(properties.items || []);
-		const { description, shortDescription } = properties;
+		const { description } = properties;
 
 		let fullDescription = description || "Nothing to see here...";
 
-		if (this.#isViewed && shortDescription) {
-			fullDescription = shortDescription;
-		} else if (description) {
-			this.#isViewed = true;
+		if (description) {
 			fullDescription = description;
 		}
 

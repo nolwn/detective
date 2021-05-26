@@ -3,17 +3,32 @@ import { GameData, SceneProperties } from "../types.ts";
 export const hall: GameData<SceneProperties> = {
 	properties: {
 		description: "It's very dark",
-		items: [{ name: "flashlight" }],
+		items: [
+			{
+				name: "flashlight",
+				actions: {
+					use: {
+						args: {
+							effect: "lit-by-flashlight",
+							applyTo: "scene",
+							result: "The flashlight is on.",
+							reverseResult: "The flashlight is off.",
+							reversible: true,
+						},
+						type: "applyEffect",
+					},
+				},
+			},
+		],
 	},
 	conditions: {
 		effects: [
 			{
-				name: "lights-on",
+				name: "lit-by-flashlight",
 				properties: {
 					description:
 						"You are standing in a big hall. There's lots of nooks, " +
 						"crannies, and room for general testing. Aw yeah... sweet testing!",
-					shortDescription: "You are in a big hall.",
 				},
 				source: "player",
 			},

@@ -10,10 +10,6 @@ export default class Player extends Vessel<VesselProperties> {
 		this.#effects = effects;
 	}
 
-	get effects() {
-		return this.#effects;
-	}
-
 	look(): string {
 		const description = super.description(this._properties.items || []);
 
@@ -27,5 +23,9 @@ export default class Player extends Vessel<VesselProperties> {
 	put(item: Item) {
 		if (!this._properties.items) this._properties.items = [];
 		this._properties.items.push(item);
+	}
+
+	get inventory(): Item[] | null {
+		return this._properties.items || null;
 	}
 }

@@ -28,7 +28,7 @@ export interface Term {
 	canPrecedeVariable: boolean;
 }
 
-export interface Action extends Term {
+export interface ActionTerm extends Term {
 	action: ActionFn;
 	category: "action";
 }

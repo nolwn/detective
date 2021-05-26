@@ -1,7 +1,32 @@
 export * from "./data/rooms.ts";
 
+export type ActionArgs = ApplyEffectArgs;
+
+export type ItemActionType = "applyEffect";
+
+export interface Args {
+	result: string;
+}
+
+export interface ItemAction {
+	type: ItemActionType;
+	args: ActionArgs;
+}
+
+export interface ApplyEffectArgs extends Args {
+	effect: string;
+	applyTo: "player" | "scene";
+	reversible: boolean;
+	reverseResult?: string;
+}
+
+export interface ApplyEffectItemAction extends ItemAction {
+	type: "applyEffect";
+}
+
 export interface Item {
 	name: string;
+	actions: { [name: string]: ItemAction };
 }
 
 export interface Effect<T> {
@@ -16,7 +41,6 @@ export interface VesselProperties {
 
 export interface SceneProperties extends VesselProperties {
 	description?: string;
-	shortDescription?: string;
 }
 
 export interface Conditions<T> {
