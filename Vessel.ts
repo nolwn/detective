@@ -1,3 +1,8 @@
+/**
+ * Vessel.ts contains the Vessel class which is a base class that handles effects and
+ * containing items. It is the base class for Player and Scene.
+ */
+
 import type { Conditions, Effect, Item, VesselProperties } from "./types.ts";
 
 export default class Vessel<T extends VesselProperties> {
@@ -10,8 +15,8 @@ export default class Vessel<T extends VesselProperties> {
 		conditions: Conditions<T>,
 		activeEffects: string[] = []
 	) {
-		this._conditions = conditions;
-		this._properties = properties;
+		this._conditions = conditions; // Conditional properties
+		this._properties = properties; // Base properties
 		this._activeEffects = activeEffects;
 	}
 
@@ -25,6 +30,7 @@ export default class Vessel<T extends VesselProperties> {
 
 	// Player effects should be applied first, then scene effects should be applied.
 	// This will mean that scene effects will take precedence over player effects.
+	// Returns base properties with conditional properties applied.
 	applyEffects(
 		activePlayerEffects: string[],
 		activeSceneEffects: string[]
@@ -40,6 +46,7 @@ export default class Vessel<T extends VesselProperties> {
 		const effects = activeEffects.map((e) => map[e]);
 		const appliedProperties = { ...this._properties };
 
+		// for each effect, apply changed properties to the
 		for (const effect of effects) {
 			Object.assign(appliedProperties, effect.properties);
 		}
@@ -47,6 +54,7 @@ export default class Vessel<T extends VesselProperties> {
 		return appliedProperties;
 	}
 
+	// Generate a description of the contained items
 	description(items: Item[]): string | null {
 		if (items.length === 0) return null;
 
@@ -67,10 +75,12 @@ export default class Vessel<T extends VesselProperties> {
 		return description;
 	}
 
+	// Checks if a given effect exists as an active effect on this vessel
 	hasActiveEffect(effect: string): boolean {
 		return this._activeEffects.includes(effect);
 	}
 
+	// Removes an effect if it is active on this vessel
 	removeEffect(effect: string): void {
 		const idx = this._activeEffects.findIndex((e) => e === effect);
 

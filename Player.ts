@@ -1,15 +1,24 @@
+/**
+ * Player.ts contains the Player class. It represents the player's state as the game
+ * goes on.
+ */
+
 import { Effect, Item, VesselProperties } from "./types.ts";
 import Vessel from "./Vessel.ts";
 
+// The Player is a type of "Vessel" which is a generic object that can have effects
+// and items.
 export default class Player extends Vessel<VesselProperties> {
-	#effects: Effect<VesselProperties>[];
-
-	constructor(items: Item[] = [], effects: Effect<VesselProperties>[] = []) {
+	constructor(items: Item[] = [], _effects: Effect<VesselProperties>[] = []) {
 		super({ items }, { effects: [] });
-
-		this.#effects = effects;
 	}
 
+	// inventory is a getter that returns the items in the user's inventory
+	get inventory(): Item[] | null {
+		return this._properties.items || null;
+	}
+
+	// look returns a string that describes the players inventory
 	look(): string {
 		const description = super.description(this._properties.items || []);
 
@@ -20,12 +29,9 @@ export default class Player extends Vessel<VesselProperties> {
 		}
 	}
 
+	// put takes an item and puts it into the players inventory
 	put(item: Item) {
 		if (!this._properties.items) this._properties.items = [];
 		this._properties.items.push(item);
-	}
-
-	get inventory(): Item[] | null {
-		return this._properties.items || null;
 	}
 }

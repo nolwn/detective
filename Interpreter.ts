@@ -1,3 +1,10 @@
+/**
+ * Interpreter.ts contains the Interpreter class which takes the command that the user
+ * made as well as the player and scene state. By checking each word of the user command,
+ * the interpreter figures out what action the user wants to take and then execute that
+ * command.
+ */
+
 import type Player from "./Player.ts";
 import type Scene from "./Scene.ts";
 import { terms } from "./terms/terms.ts";

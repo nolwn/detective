@@ -1,15 +1,14 @@
+/**
+ * User.ts export the User class that provides methods for communicating with the player
+ */
+
 const DEFAULT_PROMPT = ">";
 
 export default class User {
 	#prompt: string;
-	#out: (text: string) => Promise<void>;
 
-	constructor() {
-		this.#prompt = DEFAULT_PROMPT;
-		this.#out = async (text: string) => {
-			const data = new TextEncoder().encode(text);
-			await Deno.stdout.write(data);
-		};
+	constructor(prompt: string) {
+		this.#prompt = prompt || DEFAULT_PROMPT;
 	}
 
 	ask(question: string): string {
@@ -23,6 +22,11 @@ export default class User {
 	}
 
 	async tell(statement: string): Promise<void> {
-		await this.#out(`\n${statement}\n`);
+		await this.out(`\n${statement}\n`);
+	}
+
+	private async out(text: string): Promise<void> {
+		const data = new TextEncoder().encode(text);
+		await Deno.stdout.write(data);
 	}
 }

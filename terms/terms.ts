@@ -1,3 +1,8 @@
+/**
+ * terms.ts contains the Terms that describe the Constants that the player can use.
+ * See Terms.ts for more information about what these terms can be.
+ */
+
 import * as actions from "./actions.ts";
 import { ActionTerm } from "./Term.ts";
 
