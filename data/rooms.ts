@@ -35,7 +35,7 @@ export const hall: StoryScene<SceneProperties> = {
 							effect: "flashlight-on",
 
 							// can be "player" or "scene"
-							applyTo: "scene",
+							applyTo: "player",
 
 							// When it's used, this is what should be reported back to
 							// the user.

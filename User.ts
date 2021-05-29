@@ -7,8 +7,8 @@ const DEFAULT_PROMPT = ">";
 export default class User {
 	#prompt: string;
 
-	constructor(prompt: string) {
-		this.#prompt = prompt || DEFAULT_PROMPT;
+	constructor(prompt: string = DEFAULT_PROMPT) {
+		this.#prompt = prompt;
 	}
 
 	ask(question: string): string {

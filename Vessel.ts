@@ -35,15 +35,14 @@ export default class Vessel<T extends VesselProperties> {
 		activePlayerEffects: string[],
 		activeSceneEffects: string[]
 	): T {
-		const activeEffects = [...activePlayerEffects, ...activeSceneEffects];
-		const map = this._conditions.effects.reduce(
-			(map: { [name: string]: Effect<T> }, effect: Effect<T>) => {
-				map[effect.name] = effect;
-				return map;
-			},
-			{}
-		);
-		const effects = activeEffects.map((e) => map[e]);
+		const playerSet = new Set(activePlayerEffects);
+		const sceneSet = new Set(activeSceneEffects);
+
+		const effects = this._conditions.effects.filter(({ name, source }) => {
+			const set = source === "player" ? playerSet : sceneSet;
+			return set.has(name);
+		});
+
 		const appliedProperties = { ...this._properties };
 
 		// for each effect, apply changed properties to the
