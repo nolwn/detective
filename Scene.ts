@@ -2,7 +2,7 @@
  * Scene.ts contains the Scene class. It represents the state of the current scene.
  */
 
-import { StoryScene, Item, SceneProperties } from "./types.ts";
+import type { Exit, StoryScene, Item, SceneProperties } from "./types.ts";
 import Vessel from "./Vessel.ts";
 
 // The Scene is a type of "Vessel" which is a generic object that can have effects
@@ -23,10 +23,15 @@ export default class Scene extends Vessel<SceneProperties> {
 
 		// description of the items in the scene
 		const itemsDescription = super.description(properties.items || []);
-		const { description } = properties; // description of the room
+		const { description, exits = [] } = properties; // description of the room
 
 		// will be a string that includes both the room and item descriptions
 		let fullDescription = description || "Nothing to see here...";
+
+		const exitsDescription = Scene.describeExits(exits);
+
+		fullDescription +=
+			exitsDescription && `\n\nThere is ${exitsDescription}.`;
 
 		// if there is a description of the items...
 		if (itemsDescription) {
@@ -51,5 +56,22 @@ export default class Scene extends Vessel<SceneProperties> {
 
 		// if an item wasn't found and returned, return null
 		return null;
+	}
+
+	// Turn exits into a string description with an "and" separating the last two items
+	private static describeExits(exits: Exit[]) {
+		const exitDescriptions = exits.map(({ description }) => description);
+		if (exits.length === 0) {
+			return "";
+		} else if (exits.length === 1) {
+			return exitDescriptions[0];
+		} else {
+			const lastExit = exitDescriptions[exitDescriptions.length - 1];
+			const restExits = exitDescriptions.slice(
+				0,
+				exitDescriptions.length - 1
+			);
+			return `${restExits.join(", ")} and ${lastExit}`;
+		}
 	}
 }
