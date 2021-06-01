@@ -24,6 +24,15 @@ const look: ActionTerm = {
 	precedesConstants: [],
 };
 
+const move: ActionTerm = {
+	action: actions.move,
+	canPrecedeVariable: true,
+	category: "action",
+	constant: "go",
+	precedesCategories: [],
+	precedesConstants: [],
+};
+
 const take: ActionTerm = {
 	action: actions.pickUpItem,
 	canPrecedeVariable: true,
@@ -45,6 +54,7 @@ const use: ActionTerm = {
 export const terms = {
 	[inventory.constant]: inventory,
 	[look.constant]: look,
+	[move.constant]: move,
 	[take.constant]: take,
 	[use.constant]: use,
 };

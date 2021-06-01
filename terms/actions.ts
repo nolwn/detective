@@ -15,6 +15,7 @@ import type { ApplyEffectArgs, ItemAction } from "../types.ts";
 const ITEM_MISSING = "I can't find that.";
 const ITEM_UNUSABLE = "I don't know how to use that.";
 const ITEM_ALREADY_USED = "I already did that.";
+const DIRECTION_INACCESSIBLE = "I can't go that way.";
 
 // look is what happens when a player uses the "look" verb. It gets a description of the
 // scene.
@@ -52,6 +53,34 @@ export function checkInventory(player: Player): string {
 	return player.look();
 }
 
+// move changes the scene around the player
+export function move(_player: Player, scene: Scene, target?: string) {
+	if (!target) {
+		return "Where do you want me to go?";
+	}
+
+	const { exits } = scene.properties;
+
+	if (!exits) {
+		return DIRECTION_INACCESSIBLE;
+	}
+
+	const exit = exits.find(
+		({ direction }) => direction === target.toLocaleLowerCase()
+	);
+
+	if (!exit) {
+		return DIRECTION_INACCESSIBLE;
+	}
+
+	const { scene: identifier } = exit;
+	scene.changeScene(identifier);
+
+	const { description, name } = scene.properties;
+
+	return `${name}\n${description}`;
+}
+
 // use is what happens when a player uses the "use" verb. Different items do different
 // things when they are used, so the function needs to figure out what kind of usage an
 // item is written for, and then execute that logic with whatever arguments the
@@ -75,7 +104,7 @@ export function use(player: Player, scene: Scene, target?: string): string {
 		return ITEM_MISSING;
 	}
 
-	const itemAction = item?.actions["use"];
+	const itemAction = item?.actions?.["use"];
 
 	// The item doesn't have action defined for "use", so it cannot be used.
 	if (itemAction === undefined) {

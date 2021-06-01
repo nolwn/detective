@@ -23,7 +23,7 @@ export interface Args {
 
 // Conditions contains story elements that can be conditionally applied to the scene or
 // player
-export interface Conditions<T extends VesselProperties> {
+export interface Conditions<T extends EntityProperties> {
 	effects: Effect<T>[];
 }
 
@@ -41,7 +41,7 @@ export type Direction =
 	| "down";
 
 // Effect represents some effect that may be applied to a scene or player
-export interface Effect<T extends VesselProperties> {
+export interface Effect<T extends EntityProperties> {
 	name: string;
 	properties: T;
 	source: "player" | "scene"; // where the effect is applied
@@ -57,7 +57,7 @@ export interface Exit {
 // Item represents some item either in the scene or in the player's inventory
 export interface Item {
 	name: string;
-	actions: { [name: string]: ItemAction };
+	actions?: { [name: string]: ItemAction };
 }
 
 // ItemActionType is a union of all the types of action that can be used
@@ -69,20 +69,22 @@ export interface ItemAction {
 	args: ActionArgs;
 }
 
-// SceneProperties are the properties (in addition to the VesselProperties) that are
+// SceneProperties are the properties (in addition to the EntityProperties) that are
 // needed by the scene
-export interface SceneProperties extends VesselProperties {
+export interface SceneProperties extends EntityProperties {
 	description?: string;
 	exits?: Exit[];
+	name?: string;
 }
 
 // StoryScene holds both the conditions and properties for a scene.
-export interface StoryScene<T extends VesselProperties> {
+export interface StoryScene<T extends EntityProperties> {
+	identifier: string;
 	conditions: Conditions<T>;
 	properties: SceneProperties;
 }
 
-// VesselProperties is a base interface for the properties that a user or scene might have
-export interface VesselProperties {
+// EntityProperties is a base interface for the properties that a user or scene might have
+export interface EntityProperties {
 	items?: Item[];
 }

@@ -1,11 +1,11 @@
 /**
- * Vessel.ts contains the Vessel class which is a base class that handles effects and
+ * Entity.ts contains the Entity class which is a base class that handles effects and
  * containing items. It is the base class for Player and Scene.
  */
 
-import type { Conditions, Effect, Item, VesselProperties } from "./types.ts";
+import type { Conditions, Item, EntityProperties } from "./types.ts";
 
-export default class Vessel<T extends VesselProperties> {
+export default class Entity<T extends EntityProperties> {
 	protected _conditions: Conditions<T>;
 	protected _properties: T;
 	protected _activeEffects: string[];
@@ -22,6 +22,18 @@ export default class Vessel<T extends VesselProperties> {
 
 	get activeEffects(): string[] {
 		return this._activeEffects;
+	}
+
+	set conditions(conditions: Conditions<T>) {
+		this._conditions = conditions;
+	}
+
+	get properties(): T {
+		return this._properties;
+	}
+
+	set properties(properties: T) {
+		this._properties = properties;
 	}
 
 	addEffect(effect: string): void {
@@ -74,12 +86,12 @@ export default class Vessel<T extends VesselProperties> {
 		return description;
 	}
 
-	// Checks if a given effect exists as an active effect on this vessel
+	// Checks if a given effect exists as an active effect on this entity
 	hasActiveEffect(effect: string): boolean {
 		return this._activeEffects.includes(effect);
 	}
 
-	// Removes an effect if it is active on this vessel
+	// Removes an effect if it is active on this entity
 	removeEffect(effect: string): void {
 		const idx = this._activeEffects.findIndex((e) => e === effect);
 

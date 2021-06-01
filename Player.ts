@@ -3,13 +3,13 @@
  * goes on.
  */
 
-import { Effect, Item, VesselProperties } from "./types.ts";
-import Vessel from "./Vessel.ts";
+import { Effect, Item, EntityProperties } from "./types.ts";
+import Entity from "./Entity.ts";
 
-// The Player is a type of "Vessel" which is a generic object that can have effects
+// The Player is a type of "entity" which is a generic object that can have effects
 // and items.
-export default class Player extends Vessel<VesselProperties> {
-	constructor(items: Item[] = [], _effects: Effect<VesselProperties>[] = []) {
+export default class Player extends Entity<EntityProperties> {
+	constructor(items: Item[] = [], _effects: Effect<EntityProperties>[] = []) {
 		super({ items }, { effects: [] });
 	}
 

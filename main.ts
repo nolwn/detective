@@ -6,7 +6,7 @@ import game from "./data/rooms.ts";
 
 async function main() {
 	const user = new User(); // for communication with the user
-	const scene = new Scene(game.map[0]); // the room that player is in.
+	const scene = new Scene("hall", game.map); // the room that player is in.
 	const player = new Player(); // the players current state
 	let running = true; // running flag for the game loop. Stops on false.
 	let statement = ""; // holds a statement for the user.

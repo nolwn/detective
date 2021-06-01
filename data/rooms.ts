@@ -12,8 +12,12 @@ import { StoryScene, SceneProperties } from "../types.ts";
 const game: { map: StoryScene<SceneProperties>[] } = {
 	map: [
 		{
+			identifier: "hall",
 			// properties represent the base, default state for this room.
 			properties: {
+				// The room is called "Hall"
+				name: "Hall",
+
 				// This is what the user will see if the look while in the room.
 				description: "It's very dark",
 				// This array lists all the items that are in the room.
@@ -63,12 +67,12 @@ const game: { map: StoryScene<SceneProperties>[] } = {
 					{
 						description: "a closet to the north",
 						direction: "north",
-						scene: "Hall Closet",
+						scene: "hall closet",
 					},
 					{
 						description: "a dining room to the south",
 						direction: "south",
-						scene: "Dining Room",
+						scene: "dining room",
 					},
 				],
 			},
@@ -99,6 +103,22 @@ const game: { map: StoryScene<SceneProperties>[] } = {
 						source: "player",
 					},
 				],
+			},
+		},
+		{
+			identifier: "hall closet",
+			properties: {
+				name: "Hall Closet",
+				description:
+					"It's a closet. You feel a little silly just standing in it.",
+				items: [
+					{
+						name: "raincoat",
+					},
+				],
+			},
+			conditions: {
+				effects: [],
 			},
 		},
 	],
